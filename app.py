@@ -1,26 +1,11 @@
-from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
-from flasgger import Swagger
+from flask import request
 from services.logger import logger
 from configuration.config import config
+from flask_migrate import Migrate
+from core.main import app, db
 from routes.blacklist import bp
 
-app = Flask(__name__)
-
-template = {
-    "info": {
-        "title": "BLACKLIST",
-        "contact": {
-            "email": "elberthcabrales@gmail.com",
-        },
-        "version": "0.0.1"
-    },
-}
-swagger = Swagger(app, template=template)
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = config['database']['db_url']
-db = SQLAlchemy(app)
+app.register_blueprint(bp, url_prefix=config['api']['url_prefix'])
 
 
 @app.before_request
@@ -28,7 +13,7 @@ def before_request():
     request.logger = logger
 
 
-app.register_blueprint(bp)
+migrate = Migrate(app, db)
 
 if __name__ == '__main__':
     logger.info(

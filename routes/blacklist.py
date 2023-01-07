@@ -1,5 +1,6 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flasgger import swag_from
+from services.blacklist import BlacklistService
 
 bp = Blueprint('blacklist', __name__)
 
@@ -7,19 +8,30 @@ bp = Blueprint('blacklist', __name__)
 @bp.route('/blacklist', methods=['POST'])
 @swag_from('doc/add_to_blacklist.yml')
 def add_to_blacklist():
-    return 'Success', 201
+    try:
+        blacklist_service = BlacklistService(request)
+        blacklist_service.add_user()
+    except Exception as e:
+        return str(e), 500
+    return 'Blacklist added successfully', 200
 
 
 @bp.route('/blacklist/check', methods=['POST'])
 @swag_from('doc/blacklist_check.yml')
 def check_blacklist():
-    return 'check blacklist', 200
+    try:
+        blacklist_service = BlacklistService(request)
+        reports = blacklist_service.check_blacklist()
+
+        return jsonify(reports), 200
+    except Exception as e:
+        return str(e), 500
 
 
 @bp.route('/check-health', methods=['GET'])
 def check_health():
     request.logger.info('Health check')
-    return {'state': 'Ok'}, 200
+    return 'Ok', 200
 
 
 @bp.route('/tos', methods=['GET'])
