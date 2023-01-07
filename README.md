@@ -33,3 +33,15 @@
 ```
 
 ### swagger docs http://127.0.0.1:5000/apidocs/
+
+### commands to create db and migrations with flask-migrate
+```bash
+flask db init
+flask db migrate
+flask db upgrade
+```
+
+### run with docker
+```bash
+docker run -p 5000:80 blacklist-of-gamers
+```

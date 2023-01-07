@@ -20,4 +20,4 @@ if __name__ == '__main__':
         "service started at {}:{}".format(
             config['host_service']['host'],
             config['host_service']['port']))
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=config['host_service']['port'])
