@@ -1,0 +1,28 @@
+Example endpoint to add players to a blacklist
+---
+definitions:
+  player:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+        required: true
+      game_id:
+        type: integer
+        required: true
+      reason:
+        type: string
+        enum: ['foul_language', 'cheating', 'harassment', 'other']
+        required: true
+
+parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/player'
+
+responses:
+  201:
+    description: Added player to blacklist

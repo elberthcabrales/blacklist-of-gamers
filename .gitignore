@@ -1,0 +1,45 @@
+# Compiled Python files
+*.pyc
+
+# Flask secret key
+secrets.json
+
+# SQLite database file
+*.sqlite
+
+# Flask-SQLAlchemy database file
+*.db
+
+# Flask-Migrate database file
+db.sqlite
+
+# Flask-Cache directory
+cache/
+
+# PyInstaller files
+*.spec
+
+# Environment variables
+.env
+
+# Pytest files
+.pytest_cache/
+
+# Coverage files
+.coverage
+htmlcov/
+
+# Flask-Cors files
+cors.log
+
+# Virtualenv
+/venv
+
+# Environment variables
+.env
+
+#logs
+logs/
+
+#pycharm
+.idea/

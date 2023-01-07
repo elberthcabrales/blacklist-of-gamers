@@ -1,0 +1,8 @@
+#viatualenv
+venv/
+
+#pycharm
+.idea/
+
+#logs
+logs/

@@ -1,0 +1,34 @@
+Example endpoint to add players to a blacklist
+---
+definitions:
+  check:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+        required: true
+
+  report:
+    type: object
+    properties:
+      reason_more_used:
+        type: string
+      frequency_by_time:
+        type: integer
+      times_by_game:
+        type: integer
+
+
+parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/check'
+
+responses:
+  200:
+    description: information about the email reported
+    schema:
+      $ref: '#/definitions/report'
