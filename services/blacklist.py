@@ -5,19 +5,13 @@ from core.main import db
 
 
 class BlacklistService(object):
-    def __init__(self, request):
-        self.request = request
+    def add_user(self, email, reason, game_id):
 
-    def add_user(self):
-        email = self.request.json['email']
-        reason = self.request.json['reason']
-        game_id = self.request.json['game_id']
         blacklist = Blacklist(email, reason, game_id)
         db.session.add(blacklist)
         db.session.commit()
 
-    def check_blacklist(self):
-        email = self.request.json['email']
+    def check_blacklist(self, email):
         past_90_days = datetime.utcnow() - timedelta(days=90)
         # filter blacklist by email and timestamp (last 90 days)
         blacklist = Blacklist.query.filter(Blacklist.email == email, Blacklist.timestamp >= past_90_days).all()

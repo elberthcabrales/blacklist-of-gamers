@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flasgger import swag_from
 from services.blacklist import BlacklistService
+from validators.AddToBlacklistValidator import AddToBlacklistValidator
 
 bp = Blueprint('blacklist', __name__)
 
@@ -9,8 +10,11 @@ bp = Blueprint('blacklist', __name__)
 @swag_from('doc/add_to_blacklist.yml')
 def add_to_blacklist():
     try:
-        blacklist_service = BlacklistService(request)
-        blacklist_service.add_user()
+        AddToBlacklistValidator(request.form).validate()
+        email = request.json['email']
+        reason = request.json['reason']
+        game_id = request.json['game_id']
+        BlacklistService().add_user(email, reason, game_id)
     except Exception as e:
         return str(e), 500
     return 'Blacklist added successfully', 200
@@ -19,11 +23,11 @@ def add_to_blacklist():
 @bp.route('/blacklist/check', methods=['POST'])
 @swag_from('doc/blacklist_check.yml')
 def check_blacklist():
+    email = request.json['email']
+    if email is None:
+        return 'Email is required', 400
     try:
-        blacklist_service = BlacklistService(request)
-        reports = blacklist_service.check_blacklist()
-
-        return jsonify(reports), 200
+        return jsonify(BlacklistService().check_blacklist(email)), 200
     except Exception as e:
         return str(e), 500
 
