@@ -7,7 +7,7 @@ bp = Blueprint('blacklist', __name__)
 
 
 @bp.route('/blacklist', methods=['POST'])
-@swag_from('doc/add_to_blacklist.yml')
+@swag_from('../doc/add_to_blacklist.yml')
 def add_to_blacklist():
     try:
         AddToBlacklistValidator(request.form).validate()
@@ -21,7 +21,7 @@ def add_to_blacklist():
 
 
 @bp.route('/blacklist/check', methods=['POST'])
-@swag_from('doc/blacklist_check.yml')
+@swag_from('../doc/blacklist_check.yml')
 def check_blacklist():
     email = request.json['email']
     if email is None:

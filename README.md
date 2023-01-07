@@ -17,7 +17,7 @@
     "blacklisted": true
 }
 ```
-#### POST /blacklist/check
+#### POST /api/v1/blacklist/check
 ##### Request
 ```json
 {
